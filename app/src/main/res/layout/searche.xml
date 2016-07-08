@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <com.example.qiangge.selfview.MyEditText
+        android:id="@+id/newsearchedit"
+        android:layout_width="@dimen/x260"
+        android:layout_height="@dimen/x25"
+        android:background="@drawable/serchedit"
+        android:layout_marginLeft="@dimen/x5"
+        android:layout_marginRight="@dimen/x5"
+        android:layout_marginTop="@dimen/x10"
+        android:hint="搜索"
+        android:textSize="14sp"
+
+        android:singleLine="true"
+        android:drawableLeft="@drawable/search"
+        android:drawableRight="@drawable/delete"
+
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/x12"
+        android:layout_marginRight="@dimen/x10"
+        android:textSize="17sp"
+        android:textColor="@color/royalblue"
+        />
+</RelativeLayout>

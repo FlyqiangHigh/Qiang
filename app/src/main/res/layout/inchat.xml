@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical|right"
+    >
+    <TextView
+        android:id="@+id/inchat_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13:21"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inchat_time"
+        >
+
+
+    <com.example.qiangge.selfview.CircleImageView
+        android:id="@+id/inchat_iv"
+        android:layout_width="@dimen/x40"
+        android:layout_height="@dimen/y40"
+        android:src="@drawable/yasuo"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_alignParentRight="true"
+        />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/inchat_picture"
+            android:layout_width="@dimen/x40"
+            android:layout_height="@dimen/y40"
+            android:layout_toLeftOf="@id/inchat_iv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x5"
+            android:visibility="gone"
+
+            />
+        <!--<ImageView
+            android:id="@+id/inchat_picture"
+            android:layout_width="@dimen/x30"
+            android:layout_height="@dimen/y30"
+            android:src="@drawable/jie"
+            android:layout_toLeftOf="@id/inchat_iv"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x5"
+            android:visibility="gone"/>-->
+        <TextView
+            android:id="@+id/inchat_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/outgoing"
+            android:text="托儿索"
+            android:layout_marginRight="@dimen/x5"
+            android:maxWidth="@dimen/x200"
+
+            android:layout_toLeftOf="@id/inchat_iv"
+            android:layout_centerVertical="true"
+            />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/inchat_progress"
+            android:layout_toLeftOf="@id/inchat_tv"
+            android:layout_centerVertical="true"
+            style="@android:style/Widget.ProgressBar.Small"
+            android:layout_marginRight="@dimen/x5"
+            android:visibility="gone"
+            />
+            <ImageView
+                android:id="@+id/inchat_alert"
+                android:layout_width="@dimen/x25"
+                android:layout_height="@dimen/y25"
+                android:src="@drawable/alert"
+                android:layout_toLeftOf="@id/inchat_tv"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/x5"
+                android:visibility="gone"
+                />
+    </RelativeLayout>
+
+</RelativeLayout>

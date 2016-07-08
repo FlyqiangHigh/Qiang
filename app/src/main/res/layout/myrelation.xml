@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:group = "http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+    <com.example.qiangge.selfview.Group
+        android:id="@+id/myrelationnewfriend"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y50"
+        group:text="新朋友"
+        group:imageview="@drawable/friend"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:background="@drawable/btnclick"
+        ></com.example.qiangge.selfview.Group>
+    <com.example.qiangge.selfview.Group
+        android:id="@+id/myrelationcare"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y50"
+        group:text="特别关心"
+        group:imageview="@drawable/care"
+        android:layout_weight="1"
+        android:background="@drawable/btnclick"
+        ></com.example.qiangge.selfview.Group>
+    <com.example.qiangge.selfview.Group
+        android:id="@+id/myrelationgroup"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y50"
+        group:imageview="@drawable/group"
+        group:text="群组"
+        android:layout_weight="1"
+        android:background="@drawable/btnclick"
+        ></com.example.qiangge.selfview.Group>
+    <com.example.qiangge.selfview.Group
+        android:id="@+id/myrelationnewpublish"
+        android:layout_width="@dimen/x80"
+        android:layout_height="@dimen/y50"
+        group:text="公众号"
+        android:layout_weight="1"
+        group:imageview="@drawable/publics"
+        android:background="@drawable/btnclick"
+        ></com.example.qiangge.selfview.Group>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y10"
+        android:background="@color/background"
+        />
+</LinearLayout>

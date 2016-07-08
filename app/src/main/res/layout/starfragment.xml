@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:threegroup="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+
+    >
+    <LinearLayout
+        android:id="@+id/star_serarch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:onClick="onClick"
+        >
+    <include layout="@layout/searchedit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <include layout="@layout/dynical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        />
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/game"
+        threegroup:threetext="游戏"
+        android:layout_marginTop="@dimen/y10"
+        ></com.example.qiangge.selfview.ThreeGroup>
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_seepoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/seepoint"
+        threegroup:threetext="看点"
+
+        ></com.example.qiangge.selfview.ThreeGroup>
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_animation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/animation"
+        threegroup:threetext="动漫"
+
+        ></com.example.qiangge.selfview.ThreeGroup>
+    <com.example.qiangge.selfview.ThreeGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/music"
+        threegroup:threetext="音乐"
+        threegroup:threecolor="@color/background"
+        ></com.example.qiangge.selfview.ThreeGroup>
+
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_myvicinity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/myvicinity"
+        threegroup:threetext="附近的群"
+        android:layout_marginTop="@dimen/y10"
+        ></com.example.qiangge.selfview.ThreeGroup>
+
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_sevice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/sevice"
+        threegroup:threetext="同城服务"
+
+        ></com.example.qiangge.selfview.ThreeGroup>
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_health"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/health"
+        threegroup:threetext="健康"
+
+        ></com.example.qiangge.selfview.ThreeGroup>
+    <com.example.qiangge.selfview.ThreeGroup
+        android:id="@+id/star_class"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        threegroup:threeimageview="@drawable/classes"
+        threegroup:threetext="强哥课堂"
+        android:layout_marginBottom="@dimen/y40"
+        threegroup:threecolor="@color/background"
+        ></com.example.qiangge.selfview.ThreeGroup>
+
+    <!--<in.srain.cube.views.ptr.PtrClassicFrameLayout
+        android:id="@+id/star_pf"
+        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        cube_ptr:ptr_resistance="1.7"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_duration_to_close="300"
+        cube_ptr:ptr_duration_to_close_header="2000"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+
+
+        >
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/star_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>-->
+    </LinearLayout>
+</ScrollView>

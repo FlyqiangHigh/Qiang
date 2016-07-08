@@ -1,0 +1,216 @@
+<com.example.qiangge.selfview.SlidingMenu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/id_menu"
+    xmlns:zhy="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    zhy:rightPadding="@dimen/x60"
+    android:scrollbars="none"
+     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/cadetblue"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <include layout="@layout/mainmenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/main_head"
+                android:layout_marginBottom="@dimen/y20"
+                />
+            <include layout="@layout/mainmenubottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/main_head"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:id="@+id/main_content"
+             >
+            <RelativeLayout
+                android:id="@+id/relation_rl"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y30"
+                android:background="@color/hight_light_text"
+                >
+                <com.example.qiangge.selfview.CircleImageView
+                    android:id="@+id/main_potrait"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/jietouxiang"
+                    android:scaleType="centerCrop"
+                    android:layout_centerVertical="true"
+                    android:onClick="onClick"
+                    />
+                <LinearLayout
+                    android:id="@+id/main_ll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="@dimen/y10"
+                    android:layout_centerInParent="true"
+                    >
+                <Button
+                    android:id="@+id/main_message"
+                    android:layout_width="@dimen/x60"
+                    android:layout_height="@dimen/y20"
+                    android:background="@drawable/baike_btn_pink_left_f_96"
+                    android:textSize="15sp"
+                    android:textColor="@color/hight_light_text"
+                    android:text="消息"
+                    android:onClick="onClick"
+                    />
+                <Button
+                    android:id="@+id/main_iphone"
+                    android:layout_width="@dimen/x60"
+                    android:layout_height="@dimen/y20"
+                    android:background="@drawable/baike_btn_trans_right_f_96"
+                    android:text="电话"
+                    android:textSize="15sp"
+                    android:textColor="@color/white"
+                    android:onClick="onClick"
+                    />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/contact_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="联系人"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="@dimen/y10"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:visibility="gone"
+                    />
+                <TextView
+                    android:id="@+id/add_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="添加"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/x5"
+                    android:layout_centerVertical="true"
+                    android:onClick="onClick"
+                    />
+            </RelativeLayout>
+            <FrameLayout
+                android:id="@+id/changeframe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/relation_rl"
+                ></FrameLayout>
+
+
+            <LinearLayout
+                android:id="@+id/bottom_view"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:gravity="center"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:id="@+id/message_linear"
+                    android:onClick="onClick"
+                    >
+                    <ImageView
+                        android:id="@+id/mesage_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="1.0dip"
+                        android:src="@drawable/messageselect"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/message_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:shadowRadius="1.0"
+                        android:text="消息"
+                        android:textSize="13.0dip" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:id="@+id/contact_linear"
+                    android:onClick="onClick"
+                    >
+                    <ImageView
+                        android:id="@+id/contact_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="1.0dip"
+                        android:src="@drawable/contacnotselect" />
+
+                    <TextView
+                        android:id="@+id/contact_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:shadowRadius="1.0"
+                        android:text="联系人"
+                        android:textSize="13.0dip" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:id="@+id/star_linear"
+                    android:onClick="onClick"
+                    >
+                    <ImageView
+                        android:id="@+id/star_iv"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="1.0dip"
+                        android:src="@drawable/starnoselect" />
+
+                    <TextView
+                        android:id="@+id/star_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:shadowRadius="1.0"
+                        android:text="动态"
+                        android:textSize="13.0dip" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/stroke"
+                android:layout_above="@id/bottom_view"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</com.example.qiangge.selfview.SlidingMenu>

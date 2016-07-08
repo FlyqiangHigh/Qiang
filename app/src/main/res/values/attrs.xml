@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleImageView">
+        <attr name="border_width" format="dimension" />
+        <attr name="border_color" format="color" />
+    </declare-styleable>
+    <attr name="rightPadding" format="dimension" />
+
+    <declare-styleable name="SlidingMenu">
+        <attr name="rightPadding" />
+    </declare-styleable>
+    <declare-styleable name="Group">
+        <attr name="imageview" format="reference"/>
+        <attr name="textsize" format="integer"/>
+        <attr name="text" format="string"/>
+        <attr name="textcolor" format="color"/>
+        <attr name="imagecolor" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="DrableSize">
+        <attr name="drawsize" format="dimension"/>
+        <attr name="drawtop" format="reference"/>
+        <attr name="drawbottom" format="reference"/>
+        <attr name="drawleft" format="reference"/>
+        <attr name="drawright" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="ThreeGroup" >
+        <attr name="threeimageview" format="reference"/>
+        <attr name="threetext" format="string"/>
+        <attr name="threecolor" format="integer"/>
+    </declare-styleable>
+</resources>
