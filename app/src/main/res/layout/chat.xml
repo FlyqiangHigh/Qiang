@@ -2,81 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout
-        android:id="@+id/chat_head"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/y30"
-        android:background="@color/hight_light_text"
-        >
-        <LinearLayout
-            android:id="@+id/chat_back"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/y30"
-            android:gravity="center"
-            android:onClick="onClick"
-            >
-            <ImageView
-                android:layout_width="@dimen/x20"
-                android:layout_height="@dimen/y20"
-                android:src="@drawable/leftindicate"
-
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="消息"
-                android:textSize="18sp"
-                android:textColor="@color/white"
-                />
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/y30"
-                android:orientation="vertical"
-                android:layout_centerHorizontal="true"
-            android:gravity="center"
-                >
-                <TextView
-                    android:id="@+id/chat_contactname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="强哥"
-                    android:textColor="@color/white"
-                    android:layout_gravity="center"
-
-                    android:textSize="16sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="iphone6s在线-WIFI"
-                    android:textColor="@color/white"
-                    android:textSize="11sp"
-                    />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/y30"
-            android:layout_alignParentRight="true"
-            android:gravity="center_vertical"
-            >
-            <ImageView
-                android:id="@+id/chat_phone"
-                android:layout_width="@dimen/x25"
-                android:layout_height="@dimen/y25"
-                android:src="@drawable/phone"
-                android:layout_marginRight="@dimen/x15"
-                android:onClick="onClick"
-                />
-            <ImageView
-                android:id="@+id/chat_contact"
-                android:layout_width="@dimen/x25"
-                android:layout_height="@dimen/y25"
-                android:src="@drawable/portraits"
-                android:layout_marginRight="@dimen/x10"
-                />
-        </LinearLayout>
-    </RelativeLayout>
+    <include layout="@layout/chathead"/>
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/chat_pf"
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
@@ -90,8 +16,6 @@
         android:layout_below="@+id/chat_head"
         android:background="@color/background"
         >
-
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/chat_recyclerview"
             android:layout_width="match_parent"
@@ -102,98 +26,6 @@
         </android.support.v7.widget.RecyclerView>
 
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/background"
-        >
-        <LinearLayout
-            android:id="@+id/chat_send_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/y5"
-            >
-            <EditText
-                android:id="@+id/chat_edit"
-                android:layout_width="@dimen/x250"
-                android:layout_height="@dimen/y20"
-                android:background="@drawable/chatedittext"
-                android:layout_marginLeft="@dimen/x7"
-                android:paddingLeft="@dimen/x5"
-                android:textSize="15dp"
-                />
-            <Button
-                android:id="@+id/chat_send"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/y20"
-                android:text="发送"
-                android:background="@drawable/chatnobtn"
-                android:layout_marginLeft="@dimen/x5"
-                android:textColor="@color/white"
-                android:layout_marginRight="@dimen/x5"
-                android:onClick="onClick"
-                />
-        </LinearLayout>
-        <LinearLayout
-
-            android:layout_below="@id/chat_send_ll"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/y5"
-            >
-            <ImageView
-                android:id="@+id/chat_voice"
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectvoice"
-                android:layout_weight="1"
-                />
-            <ImageView
-                android:id="@+id/chat_video"
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectvideo"
-                android:layout_weight="1"
-                />
-            <ImageView
-                android:id="@+id/chat_picture"
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectpicture"
-                android:layout_weight="1"
-                android:onClick="onClick"
-                />
-            <ImageView
-                android:id="@+id/chat_camera"
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectcamera"
-                android:layout_weight="1"
-                />
-            <ImageView
-                android:id="@+id/chat_money"
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectmoney"
-                android:layout_weight="1"
-                />
-            <ImageView
-                android:id="@+id/chat_smile"
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectsmile"
-                android:layout_weight="1"
-                />
-            <ImageView
-                android:layout_width="@dimen/x15"
-                android:layout_height="@dimen/y15"
-                android:src="@drawable/noselectmore"
-                android:layout_weight="1"
-                />
-        </LinearLayout>
-
-
-    </RelativeLayout>
+    <include layout="@layout/chatbottom"/>
 
 </RelativeLayout>

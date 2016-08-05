@@ -2,11 +2,14 @@ package com.example.qiangge.qiangge;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -21,9 +24,13 @@ import com.avos.avoscloud.PushService;
 import com.example.qiangge.Fragment.ContactFragment;
 import com.example.qiangge.Fragment.MessageFragment;
 import com.example.qiangge.Fragment.StarFragment;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.interfaces.Present;
+import com.example.qiangge.selfview.ColorDialog;
 import com.example.qiangge.selfview.SlidingMenu;
 import com.example.qiangge.util.ScreenUtils;
+import com.squareup.picasso.Picasso;
+
 import de.greenrobot.event.EventBus;
 /**
  * Created by qiangge on 2016/2/29.
@@ -47,6 +54,8 @@ public class MainActivity extends FragmentActivity {
     private LinearLayout mMainLL;
     private SlidingMenu mSlidingMenu;
     private PopupWindow popupWindow;
+    private LinearLayout mExit;
+    private ColorDialog dialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,10 +105,12 @@ public class MainActivity extends FragmentActivity {
 
     }
     public void onEventMainThread(ContactFragment conF){
+        Log.e("conF","conF");
         contactFragment.setUpdate();
     }
 
     private void initView() {
+        ShowDialog();
         EventBus.getDefault().register(this);
         mSlidingMenu = (SlidingMenu) findViewById(R.id.id_menu);
         mMainContent = (RelativeLayout) findViewById(R.id.main_content);
@@ -126,7 +137,7 @@ public class MainActivity extends FragmentActivity {
             drawable.setBounds(0, 0, 80, 80);
         }
         mAddChange.setCompoundDrawables(drawable, null, null, null);
-        mUserName.setText(LoginActivity.username);
+        mUserName.setText(MyApplication.userName);
         /*BadgeView badgeView = new BadgeView(this);
         badgeView.setTargetView(contactiv);
         badgeView.setBadgeCount(1);
@@ -237,14 +248,23 @@ public class MainActivity extends FragmentActivity {
             case R.id.add_change:
                 showPopuWindow();
                 break;
+            case R.id.mainmenubottom_exit:
+                SharedPreferences sharedPreferences = getSharedPreferences("username", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username","");
+                editor.putString("userid","");
+                editor.putString("pwd","");
+                editor.commit();
+                finish();
+                break;
 
         }
         fragmentTransaction.commit();
     }
 
     private void showPopuWindow() {
-        View viewPopuwindow = LayoutInflater.from(MainActivity.this).inflate(R.layout.addfriend,null);
-        LinearLayout linearLayout = (LinearLayout) viewPopuwindow.findViewById(R.id.addfriend_friend);
+        View viewPopuwindow = LayoutInflater.from(MainActivity.this).inflate(R.layout.add,null);
+        LinearLayout linearLayout = (LinearLayout) viewPopuwindow.findViewById(R.id.add_friend);
         linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,7 +273,7 @@ public class MainActivity extends FragmentActivity {
                 popupWindow.dismiss();
             }
         });
-        popupWindow = new PopupWindow(viewPopuwindow, getWindowManager().getDefaultDisplay().getWidth()*3/10,
+        popupWindow = new PopupWindow(viewPopuwindow, getWindowManager().getDefaultDisplay().getWidth()*4/10,
                     LinearLayout.LayoutParams.WRAP_CONTENT,true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setSoftInputMode(PopupWindow.INPUT_METHOD_NEEDED);
@@ -278,5 +298,34 @@ public class MainActivity extends FragmentActivity {
         if (requestCode == REQUESTADD  && resultCode == RESULT_OK){
             messageFragment.updateFragment();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (dialog != null){
+            dialog.show();
+        }
+    }
+
+    private void ShowDialog() {
+        dialog = new ColorDialog(this);
+        dialog.setTitle("Exit");
+        dialog.setAnimationEnable(true);
+        dialog.setContentText("是否取消");
+        dialog.setPositiveListener("离开", new ColorDialog.OnPositiveListener() {
+            @Override
+            public void onClick(ColorDialog dialog) {
+                dialog.dismiss();
+                //System.exit(0);
+                finish();
+            }
+        })
+                .setNegativeListener("取消", new ColorDialog.OnNegativeListener() {
+                            @Override
+                            public void onClick(ColorDialog dialog) {
+                                dialog.dismiss();
+                            }
+                        }
+                );
     }
 }

@@ -20,6 +20,8 @@ import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
  */
 public class MyApplication  extends  com.example.qiangge.activeandroid.app.Application{
     public final static String RECEIVEMESSAGE = "com.qiangge.receivemessage";
+    public static String userid="";
+    public static String userName = "";
     @Override
     public void onCreate() {
         super.onCreate();

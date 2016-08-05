@@ -17,10 +17,12 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.example.qiangge.Fragment.ContactFragment;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.qiangge.FeedBackActivity;
 import com.example.qiangge.qiangge.LoginActivity;
 import com.example.qiangge.qiangge.MainActivity;
 import com.example.qiangge.qiangge.R;
+import com.example.qiangge.table.Contact;
 import com.example.qiangge.util.ToastShow;
 
 import org.json.JSONException;
@@ -50,10 +52,14 @@ public class FeedBackReceive extends BroadcastReceiver {
                             AVObject avObject = new AVObject("RelateFriend");
                             avObject.put("contactid",avUser.getObjectId());
                             avObject.put("contactname",avUser.getString("username"));
-                            avObject.put("userid",LoginActivity.userid);
+                            Log.e("userid",MyApplication.userid+"fds");
+                            avObject.put("userid", MyApplication.userid);
                             avObject.put("installationid", avUser.getString("installationid"));
-                            avObject.put("isConversation",0);
+                            avObject.put("isConversation", 0);
                             avObject.saveInBackground();
+
+                           // Contact contact = new Contact();
+
                             EventBus.getDefault().post(new ContactFragment());
                             // push successfully.
                         } else {

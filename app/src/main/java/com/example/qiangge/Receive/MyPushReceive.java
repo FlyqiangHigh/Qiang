@@ -29,7 +29,6 @@ public class MyPushReceive extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            Log.e("fdsf","fdsfa");
                 if (intent.getExtras().getString("com.avos.avoscloud.Data") != null){
                     JSONObject json = new JSONObject(intent.getExtras().getString("com.avos.avoscloud.Data"));
                     StringBuilder userid = new StringBuilder(json.getString("userid")) ;

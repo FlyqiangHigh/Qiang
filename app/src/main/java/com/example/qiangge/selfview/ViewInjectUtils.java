@@ -20,7 +20,7 @@ public class ViewInjectUtils
 		Log.e("TAG", "inject");
 		injectContentView(activity);
 		injectViews(activity);
-		// injectEvents(activity);
+		//injectEvents(activity);
 	}
 
 

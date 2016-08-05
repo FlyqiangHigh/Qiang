@@ -32,7 +32,7 @@ public class PopuwindowAdapter extends BaseAdapter{
     private Handler mHandler;
     public PopuwindowAdapter (Context context,Handler handler){
         this.mContext = context;
-        //mUserList = PopuwindowModel.getData();
+        mUserList = PopuwindowModel.getData();
         this.mHandler = handler;
     }
     @Override
@@ -64,14 +64,15 @@ public class PopuwindowAdapter extends BaseAdapter{
         }else{
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        /*viewHolder.userTv.setText(mUserList.get(position).name);
+        viewHolder.userTv.setText(mUserList.get(position).getNickname());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Message msg = Message.obtain();
                 msg.what = LoginActivity.MSG_UPDATE;
                 Bundle bundle = new Bundle();
-                bundle.putString("user", mUserList.get(position).name);
+                bundle.putString("user", mUserList.get(position).getNickname());
+                bundle.putString("password", mUserList.get(position).getPassword());
                 msg.setData(bundle);
                 mHandler.sendMessage(msg);
 
@@ -87,7 +88,7 @@ public class PopuwindowAdapter extends BaseAdapter{
 
 
             }
-        });*/
+        });
 
         return convertView;
     }
@@ -99,7 +100,7 @@ public class PopuwindowAdapter extends BaseAdapter{
 
     @Override
     public void notifyDataSetChanged() {
-        //mUserList = PopuwindowModel.getData();
+        mUserList = PopuwindowModel.getData();
         super.notifyDataSetChanged();
     }
 }

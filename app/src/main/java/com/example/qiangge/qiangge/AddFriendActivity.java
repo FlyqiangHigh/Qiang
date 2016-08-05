@@ -16,13 +16,14 @@ import com.avos.avoscloud.GetCallback;
 import com.avos.avoscloud.SendCallback;
 import com.example.qiangge.annotation.ContentView;
 import com.example.qiangge.annotation.ViewInject;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.selfview.ViewInjectUtils;
 import com.example.qiangge.util.ToastShow;
 
 /**
  * Created by qiangge on 2016/6/3.
  */
-@ContentView(R.layout.add)
+@ContentView(R.layout.addfriend)
 public class AddFriendActivity extends Activity {
     @ViewInject(R.id.add_btn)
     private Button addButton;
@@ -42,7 +43,6 @@ public class AddFriendActivity extends Activity {
                 {
                     AVQuery<AVUser> avUserAVQuery = new AVQuery<>("_User");
                     avUserAVQuery.whereEqualTo("username",contactName);
-                    Log.e("contextname",contactName);
                     /**
                      * 查询的结果操作
                      */
@@ -64,7 +64,8 @@ public class AddFriendActivity extends Activity {
                         AVQuery avQuery = AVInstallation.getQuery();
                         avQuery.whereEqualTo("installationId", installationId);
                         JSONObject object = new JSONObject();
-                        object.put("userid", LoginActivity.userid);
+                        object.put("userid", MyApplication.userid);
+                        Log.e("userid",MyApplication.userid+"fdsf");
                         object.put("titles", "你好");
                         object.put("installationid", installationId);
                         object.put("action", "com.avos.UPDATE_STATUS");
@@ -88,6 +89,7 @@ public class AddFriendActivity extends Activity {
             public void done(AVException e) {
                 if (e == null) {
                     ToastShow.toastShow(AddFriendActivity.this, "请求已发送");
+                    finish();
                     // push successfully.
                 } else {
                     // something wrong.

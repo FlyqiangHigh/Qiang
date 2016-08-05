@@ -19,6 +19,7 @@ import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.example.qiangge.adapter.MeaageAdapter;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.interfaces.IAVContactService;
 import com.example.qiangge.interfaces.IAVQuery;
 import com.example.qiangge.interfaces.IAVQueryCS;
@@ -67,7 +68,7 @@ public class AvUtil {
     }
 
     public static  void contaxtSerice(final String userName,final String contactName, final IAVContactService iavContactService){
-        AVIMClient avimClient = AVIMClient.getInstance(LoginActivity.username.toString());
+        AVIMClient avimClient = AVIMClient.getInstance(MyApplication.userName);
         avimClient.open(new AVIMClientCallback() {
             @Override
             public void done(AVIMClient avimClient, AVIMException e) {

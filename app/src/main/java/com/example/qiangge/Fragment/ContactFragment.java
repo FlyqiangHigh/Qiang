@@ -21,26 +21,19 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.example.qiangge.adapter.MyAdapter;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.interfaces.IAVQuery;
-import com.example.qiangge.interfaces.IAVUtil;
-import com.example.qiangge.qiangge.LoginActivity;
+
 import com.example.qiangge.qiangge.R;
-import com.example.qiangge.table.Contact;
 import com.example.qiangge.util.AvUtil;
 import com.example.qiangge.util.CreatePtr;
 import com.example.qiangge.util.ItemDecroation;
-import com.example.qiangge.util.ToastShow;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 import in.srain.cube.views.ptr.PtrClassicFrameLayout;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
-import in.srain.cube.views.ptr.header.MaterialHeader;
 
 /**
  * Created by qiangge on 2016/5/6.
@@ -54,9 +47,11 @@ public class ContactFragment extends Fragment {
     private MyAdapter adapter;
     private View view;
     public void setUpdate(){
-        AvUtil.query(LoginActivity.userid, new IAVQuery() {
+        Log.e("fsddf","fsdfsdf");
+        AvUtil.query(MyApplication.userid ,new IAVQuery() {
             @Override
             public void querySuccess(List<AVObject> list) {
+
                 adapter.updateData(list);
                 adapter.notifyDataSetChanged();
             }
@@ -95,9 +90,10 @@ public class ContactFragment extends Fragment {
     }
 
     private void initData() {
-        AvUtil.query(LoginActivity.userid, new IAVQuery() {
+        AvUtil.query(MyApplication.userid, new IAVQuery() {
             @Override
             public void querySuccess(List<AVObject> list) {
+                Log.e("fdsfs",list.size()+"");
                 adapter.updateData(list);
                 adapter.notifyDataSetChanged();
             }

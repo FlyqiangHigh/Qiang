@@ -5,51 +5,54 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
+import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
-import com.avos.avoscloud.im.v2.AVIMConversationQuery;
 import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.AVIMMessage;
 import com.avos.avoscloud.im.v2.AVIMTypedMessage;
-import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
-import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMMessagesQueryCallback;
 import com.avos.avoscloud.im.v2.messages.AVIMImageMessage;
 import com.avos.avoscloud.im.v2.messages.AVIMTextMessage;
 import com.example.qiangge.adapter.ChatAdapter;
+import com.example.qiangge.adapter.FaceVPAdapter;
 import com.example.qiangge.annotation.ContentView;
 import com.example.qiangge.annotation.ViewInject;
 import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.interfaces.IAVContactService;
 import com.example.qiangge.interfaces.IAVQueryCS;
-import com.example.qiangge.interfaces.IAVUtil;
 import com.example.qiangge.interfaces.PtrOperate;
 import com.example.qiangge.model.ImageInfo;
 import com.example.qiangge.selfview.ViewInjectUtils;
 import com.example.qiangge.util.AvUtil;
 import com.example.qiangge.util.CreatePtr;
 import com.example.qiangge.util.ImageLoaders;
+import com.example.qiangge.util.ScreenUtils;
 import com.example.qiangge.util.ToastShow;
+import com.iflytek.cloud.ui.RecognizerDialog;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -76,29 +79,33 @@ public class ChatActivity extends Activity{
     private Button mSendBtn;
     @ViewInject(R.id.chat_contactname)
     private TextView mContactName;
+
     private ChatAdapter mChatAdpater;
     private InputMethodManager inputMethodManager;
     private AVIMConversation mAVimConversation;
     private StringBuilder userName,contactName,contactId;
-    private AVIMClient avimClient;
     private MessageReveiver messageReveiver;
     private LinearLayoutManager linearLayoutManager;
     private List<ImageInfo> data = new ArrayList<>();
     private Map<String,Integer> map = new HashMap<>();
     public int count = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ViewInjectUtils.inject(this);
         initData();
     }
 
     private void initData() {
         contactName = new StringBuilder(getIntent().getStringExtra("contactname"));
         contactId = new StringBuilder(getIntent().getStringExtra("contactId"));
+
         /**
          * 此处是对本layout的载入
          */
-        ViewInjectUtils.inject(this);
+
+        //initViewPager();
         mContactName.setText(contactName);
         /**
          * 对recyclerview的初始化处理
@@ -168,7 +175,7 @@ public class ChatActivity extends Activity{
     private void initRecyclerview() {
         linearLayoutManager = new LinearLayoutManager(this);
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        userName = new StringBuilder(LoginActivity.username);
+        userName = new StringBuilder(MyApplication.userName);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setOnTouchListener(new RecylcerviewTouch());
     }
@@ -195,7 +202,7 @@ public class ChatActivity extends Activity{
 
                     @Override
                     public void queryConversationFailed(AVException e) {
-                        ToastShow.toastShow(ChatActivity.this,e+"");
+                        ToastShow.toastShow(ChatActivity.this, e + "");
                     }
                 });
             }
@@ -208,7 +215,7 @@ public class ChatActivity extends Activity{
     }
 
     private void createdConversation(List<String> clientIds) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("customConversationType", 0);
         AVIMClient.getInstance(userName.toString()).createConversation(clientIds, userName.toString(), null, new AVIMConversationCreatedCallback() {
             @Override
@@ -219,11 +226,11 @@ public class ChatActivity extends Activity{
                         @Override
                         public void done(List<AVIMMessage> list, AVIMException e) {
 
-                                mChatAdpater = new ChatAdapter(ChatActivity.this, list, userName.toString(), contactName.toString());
-                                recyclerView.setAdapter(mChatAdpater);
-                                if (mChatAdpater.getItemCount() > 0) {
-                                    recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
-                                }
+                            mChatAdpater = new ChatAdapter(ChatActivity.this, list, userName.toString());
+                            recyclerView.setAdapter(mChatAdpater);
+                            if (mChatAdpater.getItemCount() > 0) {
+                                recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
+                            }
 
                         }
                     });
@@ -246,7 +253,7 @@ public class ChatActivity extends Activity{
                             map.put(((AVIMImageMessage) avimMessage).getFileUrl(), count++);
                         }
                     }
-                    mChatAdpater = new ChatAdapter(ChatActivity.this, list, userName.toString(), contactName.toString(),data,map,count);
+                    mChatAdpater = new ChatAdapter(ChatActivity.this, list, contactName.toString(),data,map,count);
                     recyclerView.setAdapter(mChatAdpater);
                     if (mChatAdpater.getItemCount() > 0) {
                         recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
@@ -258,7 +265,7 @@ public class ChatActivity extends Activity{
         });
     }
 
-    public void onClick(View view){
+    public void onClick(View view) throws IOException {
         switch(view.getId()){
         case R.id.chat_back:
             finish();
@@ -267,28 +274,28 @@ public class ChatActivity extends Activity{
                 break;
             case R.id.chat_send:
                 if (!mEditText.getText().toString().equals("")){
-                    AVIMTextMessage message = new AVIMTextMessage();
-                    message.setText(mEditText.getText().toString());
+                        AVIMTextMessage message = new AVIMTextMessage();
+                        message.setText(mEditText.getText().toString());
 
-                    if (mChatAdpater != null){
-                        mChatAdpater.updateMessage(message);
-                        mChatAdpater.notifyDataSetChanged();
-                        if (mChatAdpater.getItemCount() > 0) {
-                            recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
-                        }
-                    }
-
-                    mAVimConversation.sendMessage(message, new AVIMConversationCallback() {
-                        @Override
-                        public void done(AVIMException e) {
-                            if (e == null){
-                                mChatAdpater.notifyDataSetChanged();
-                                updateRelate();
-                            }else{
-                                Toast.makeText(ChatActivity.this,"发送失败",Toast.LENGTH_SHORT).show();
+                        if (mChatAdpater != null){
+                            mChatAdpater.updateMessage(message);
+                            mChatAdpater.notifyDataSetChanged();
+                            if (mChatAdpater.getItemCount() > 0) {
+                                recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
                             }
                         }
-                    });
+
+                        mAVimConversation.sendMessage(message, new AVIMConversationCallback() {
+                            @Override
+                            public void done(AVIMException e) {
+                                if (e == null){
+                                    mChatAdpater.notifyDataSetChanged();
+                                    updateRelate();
+                                }else{
+                                    Toast.makeText(ChatActivity.this,"发送失败",Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     mEditText.setText("");
                 }
 
@@ -304,6 +311,16 @@ public class ChatActivity extends Activity{
                 intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
 
                 startActivityForResult(intent, REQUESTIAMGE);
+                break;
+            /*case R.id.chat_smile:
+                hideSoftInputView();//隐藏软键盘
+                if (mFaceLL.getVisibility() == View.VISIBLE){
+                    mFaceLL.setVisibility(View.GONE);
+                }else{
+                    mFaceLL.setVisibility(View.VISIBLE);
+                }
+                break;*/
+            case R.id.chat_video:
                 break;
         }
     }
@@ -341,7 +358,6 @@ public class ChatActivity extends Activity{
         if (requestCode == REQUESTIAMGE){
             if (resultCode == RESULT_OK){
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                StringBuilder s = new StringBuilder("");
                 for (String p : path){
                     try {
                        final AVIMImageMessage avimImageMessage = new AVIMImageMessage(p);
@@ -388,6 +404,14 @@ public class ChatActivity extends Activity{
             if (mChatAdpater.getItemCount() > 0) {
                 recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
             }
+        }
+    }
+
+    public void hideSoftInputView() {
+        InputMethodManager manager = ((InputMethodManager) this.getSystemService(Activity.INPUT_METHOD_SERVICE));
+        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getCurrentFocus() != null)
+                manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }

@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVInstallation;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.AVUtils;
 import com.avos.avoscloud.LogInCallback;
@@ -40,6 +41,12 @@ public class UserModel implements IUserModel{
                 @Override
                 public void loginSuccess(AVUser avUser) {
                     AVInstallation.getCurrentInstallation().saveInBackground();
+                    String installId = avUser.getString("installationid");
+                    if (installId != null && !installId.equals(AVInstallation.getCurrentInstallation().getInstallationId())){
+                        AVObject avObject = AVObject.createWithoutData("_User", avUser.getObjectId());
+                        avObject.put("installationid",AVInstallation.getCurrentInstallation().getInstallationId());
+                        avObject.saveInBackground();
+                    }
                     onLoginListener.loginSuccess(avUser);
                 }
 

@@ -1,5 +1,7 @@
 package com.example.qiangge.Present;
 
+import android.util.Log;
+
 import com.avos.avoscloud.AVUser;
 import com.example.qiangge.interfaces.IUserModel;
 import com.example.qiangge.model.UserModel;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.example.qiangge.util.ImageLoaders;
 import com.example.qiangge.util.MessageStaus;
 import com.example.qiangge.util.ToastShow;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.iflytek.cloud.ui.RecognizerDialog;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,34 +42,28 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private int listCount;
     private int index;
     private List<AVIMMessage> listMessage = new ArrayList<>();
-    private List<AVIMMessage> listIniateMessage = new ArrayList<>();
     private LinkedList<AVIMMessage> linkedMessage = new LinkedList<>();
-    private List<RecyclerView.ViewHolder> listViewholder = new ArrayList<>();
     private Context mContext;
-    private StringBuilder userName,coantactName;
+    private StringBuilder userName;
     private List<ImageInfo> data = new ArrayList<>();
     private Map<String,Integer> map = new HashMap<>();
     public int count = 0;
     private ImageBDInfo bdInfo;
-    public ChatAdapter(Context mContext,List<AVIMMessage> listMessage,String userName,String contactName){
+    public ChatAdapter(Context mContext,List<AVIMMessage> listMessage,String userName){
         this.userName = new StringBuilder(userName);
-        this.coantactName = new StringBuilder(contactName);
         this.mContext = mContext;
         this.listMessage = listMessage;
-        listIniateMessage = listMessage;
         listCount = listMessage.size();
         this.mContext = mContext;
 
         handleFirst(listMessage);
         bdInfo = new ImageBDInfo();
     }
-    public ChatAdapter(Context mContext,List<AVIMMessage> listMessage,String userName,String contactName,List<ImageInfo> data,Map<String,Integer> map
+    public ChatAdapter(Context mContext,List<AVIMMessage> listMessage,String userName,List<ImageInfo> data,Map<String,Integer> map
     ,int count){
         this.userName = new StringBuilder(userName);
-        this.coantactName = new StringBuilder(contactName);
         this.mContext = mContext;
         this.listMessage = listMessage;
-        listIniateMessage = listMessage;
         listCount = listMessage.size();
         this.mContext = mContext;
         this.data = data;
@@ -116,16 +113,17 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     @Override
     public int getItemViewType(int position) {
+        Log.e("usreName",linkedMessage.get(position).getFrom()+" "+AVIMClient.getInstance(userName.toString()).getClientId());
         if (linkedMessage.get(position).getFrom().equals(AVIMClient.getInstance(userName.toString()).getClientId()))
-            return 1;
-        else
             return 0;
+        else
+            return 1;
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        View view ;
         if (viewType == 1){
             view = LayoutInflater.from(mContext).inflate(R.layout.inchat,null);
             return new inChat(view);

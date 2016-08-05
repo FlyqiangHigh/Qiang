@@ -20,6 +20,7 @@ import com.avos.avoscloud.PushService;
 import com.avos.avoscloud.SendCallback;
 import com.example.qiangge.annotation.ContentView;
 import com.example.qiangge.annotation.ViewInject;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.selfview.ViewInjectUtils;
 import com.example.qiangge.util.ToastShow;
 import java.util.List;
@@ -78,7 +79,7 @@ public class FeedBackActivity extends Activity {
                     avPush.setQuery(avQuery);
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("action","com.avos.qiangge");
-                    jsonObject.put("userid", LoginActivity.userid);
+                    jsonObject.put("userid", MyApplication.userid);
                     avPush.setPushToAndroid(true);
                     avPush.setData(jsonObject);
                     /**
@@ -100,7 +101,7 @@ public class FeedBackActivity extends Activity {
                     AVObject avObject = new AVObject("RelateFriend");
                     avObject.put("contactid",contactid);
                     avObject.put("contactname",avUser.getString("username"));
-                    avObject.put("userid", LoginActivity.userid);
+                    avObject.put("userid", MyApplication.userid);
                     avObject.put("installationid",avUser.getString("installationid"));
                     avObject.saveInBackground();
                     ToastShow.toastShow(FeedBackActivity.this, "请求已发送");

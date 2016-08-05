@@ -1,11 +1,14 @@
 package com.example.qiangge.qiangge;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,9 +20,12 @@ import android.widget.RelativeLayout;
 import com.avos.avoscloud.AVUser;
 import com.example.qiangge.Present.LoginPresent;
 import com.example.qiangge.adapter.PopuwindowAdapter;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.interfaces.ILoginiew;
+import com.example.qiangge.model.PopuwindowModel;
 import com.example.qiangge.selfview.ColorDialog;
 import com.example.qiangge.selfview.MyEditText;
+import com.example.qiangge.table.User;
 import com.example.qiangge.util.ScreenUtils;
 import com.example.qiangge.util.ToastShow;
 import java.lang.ref.WeakReference;
@@ -34,17 +40,38 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
     private ImageView mSpinner;
     private PopuwindowAdapter mPopuwindowAdapter;
     private MyEditText myNameEdit,myPasswordEdit;
-    private ColorDialog dialog;
+
     private ProgressBar progressBar;
     public static StringBuilder username;
     private MyHandler myHandler;
     private LoginPresent loginPresent;
-
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
-        ScreenUtils.initAnimate(mMoveRl);
+        sharedPreferences = getSharedPreferences("username", Context.MODE_PRIVATE);
+        String user = sharedPreferences.getString("username","");
+        //String pwd = sharedPreferences.getString("pwd","");
+        if (user.equals("")){
+            initView();
+            ScreenUtils.initAnimate(mMoveRl);
+        }else{
+            MyApplication.userid = sharedPreferences.getString("userid","");
+            Log.e("ufff",sharedPreferences.getString("userid","")+"fsdfsdf" );
+            MyApplication.userName = user;
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null){
+            userid = savedInstanceState.getString("userid");
+        }
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -68,11 +95,25 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
     public void dologinSuccess(AVUser avUser) {
         ToastShow.toastShow(this, "登录成功");
         Intent intent = new Intent();
-        userid = avUser.getObjectId();
-        username = new StringBuilder(avUser.getUsername());
+        MyApplication.userid = avUser.getObjectId();
+        MyApplication.userName = avUser.getUsername();
         ComponentName componentName = new ComponentName(getPackageName(), MainActivity.class.getName());
         intent.setComponent(componentName);
         startActivity(intent);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("username",avUser.getUsername());
+        editor.putString("pwd",getPassWord());
+        editor.putString("userid",avUser.getObjectId());
+        editor.commit();
+        if (PopuwindowModel.findUser(avUser.getUsername())){
+            User user = new User();
+            user.setUserid(avUser.getObjectId());
+            user.setNickname(avUser.getUsername());
+            user.setPassword(myPasswordEdit.getText().toString());
+            user.save();
+        }
+        finish();
     }
     public String getUserName(){
         return myNameEdit.getText().toString();
@@ -98,6 +139,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
                     case MSG_UPDATE:
                         if (msg.getData().get("user") != null){
                             loginActivity.myNameEdit.setText(msg.getData().get("user").toString());
+                            loginActivity.myPasswordEdit.setText(msg.getData().get("password").toString());
                             loginActivity.mPopupWindow.dismiss();
                         }
                         break;
@@ -114,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
 
     private void initView() {
         setContentView(R.layout.login);
-        ShowDialog();
+
         loginPresent = new LoginPresent(this);
         myHandler = new MyHandler(this);
         mMoveRl = (RelativeLayout) findViewById(R.id.login_move_rl);
@@ -167,33 +209,7 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
         mPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.white));
     }
 
-    @Override
-    public void onBackPressed() {
-        if (dialog != null){
-            dialog.show();
-        }
-    }
 
-    private void ShowDialog() {
-        dialog = new ColorDialog(this);
-        dialog.setTitle("Exit");
-        dialog.setAnimationEnable(true);
-        dialog.setContentText("是否取消");
-        dialog.setPositiveListener("离开", new ColorDialog.OnPositiveListener() {
-            @Override
-            public void onClick(ColorDialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
-        })
-                .setNegativeListener("取消", new ColorDialog.OnNegativeListener() {
-                            @Override
-                            public void onClick(ColorDialog dialog) {
-                                dialog.dismiss();
-                            }
-                        }
-                );
-    }
     public  void backgroundAlpha(float bgAlpha){
         ScreenUtils.backgroundAlpha(bgAlpha,this);
     }
@@ -201,7 +217,8 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        myHandler.removeCallbacksAndMessages(null);
+        if (myHandler != null)
+            myHandler.removeCallbacksAndMessages(null);
     }
 
 }

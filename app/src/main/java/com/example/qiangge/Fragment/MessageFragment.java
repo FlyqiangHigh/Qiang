@@ -5,22 +5,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
-import com.avos.avoscloud.AVQuery;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.im.v2.AVIMClient;
-import com.avos.avoscloud.im.v2.AVIMConversation;
+
 import com.example.qiangge.adapter.MeaageAdapter;
+import com.example.qiangge.application.MyApplication;
 import com.example.qiangge.interfaces.IAVQuery;
-import com.example.qiangge.interfaces.IAVUtil;
-import com.example.qiangge.interfaces.PtrOperate;
-import com.example.qiangge.qiangge.LoginActivity;
 import com.example.qiangge.qiangge.R;
 import com.example.qiangge.util.AvUtil;
 import com.example.qiangge.util.CreatePtr;
@@ -50,7 +45,7 @@ public class MessageFragment extends Fragment{
         return view;
     }
     private void initData() {
-        AvUtil.query(LoginActivity.userid, new IAVQuery() {
+        AvUtil.query(MyApplication.userid, new IAVQuery() {
             @Override
             public void querySuccess(List<AVObject> list) {
                 LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity());
@@ -58,6 +53,7 @@ public class MessageFragment extends Fragment{
                 adapter = new MeaageAdapter(getActivity(), getActivity().getIntent().getStringExtra("username"), list);
                 messageRecycler.setAdapter(adapter);
                 CreatePtr.getPtr(getActivity(), ptrClassicFrameLayout, null);
+                adapter.notifyDataSetChanged();
             }
 
             @Override

@@ -18,7 +18,7 @@ import com.nineoldandroids.view.ViewHelper;
 public class SlidingMenu extends HorizontalScrollView
 {
 	/**
-	 * 屏幕宽度
+	 * 屏幕宽度		`
 	 */
 	private int mScreenWidth;
 	/**
