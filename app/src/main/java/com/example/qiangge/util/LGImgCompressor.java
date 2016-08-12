@@ -301,7 +301,7 @@ public class LGImgCompressor {
     public interface CompressListener {
         void onCompressStart();
 
-        void onCompressEnd(CompressResult imageOutPath);
+        void onCompressEnd(CompressResult imageOutPath) throws IOException;
     }
 
     private class CompressTask extends AsyncTask<String, Void, CompressResult> {
@@ -336,7 +336,11 @@ public class LGImgCompressor {
         @Override
         protected void onPostExecute(CompressResult compressResult) {
             if (compressListener != null) {
-                compressListener.onCompressEnd(compressResult);
+                try {
+                    compressListener.onCompressEnd(compressResult);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -52,7 +52,6 @@ public class MessageFragment extends Fragment{
                 messageRecycler.setLayoutManager(horizontalLayoutManager);
                 adapter = new MeaageAdapter(getActivity(), "", list);
                 messageRecycler.setAdapter(adapter);
-                Log.e("contxt",getActivity()+"fdsf");
                 CreatePtr.getPtr(getActivity(), ptrClassicFrameLayout, null);
                 adapter.notifyDataSetChanged();
             }

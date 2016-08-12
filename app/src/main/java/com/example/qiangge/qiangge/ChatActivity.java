@@ -362,28 +362,8 @@ public class ChatActivity extends Activity  implements LGImgCompressor.CompressL
             if (resultCode == RESULT_OK){
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 for (String p : path){
-                    try {
-                       /* LGImgCompressor.getInstance(this).
-                                starCompress(p, 600, 800, 100);*/
-
-                       final AVIMImageMessage avimImageMessage = new AVIMImageMessage(p);
-                        avimImageMessage.setText("图像");
-                        Map<String,Object> attributes = new HashMap<>();
-                        attributes.put("style",2);
-                        avimImageMessage.setAttrs(attributes);
-                        mAVimConversation.sendMessage(avimImageMessage, new AVIMConversationCallback() {
-                            @Override
-                            public void done(AVIMException e) {
-                                mChatAdpater.updateMessage(avimImageMessage);
-
-                                if (mChatAdpater.getItemCount() > 0) {
-                                    recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
-                                }
-                            }
-                        });
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                        LGImgCompressor.getInstance(this).withListener(this).
+                                starCompress(p, 600, 800, 100);
                 }
             }
         }
@@ -401,10 +381,28 @@ public class ChatActivity extends Activity  implements LGImgCompressor.CompressL
     }
 
     @Override
-    public void onCompressEnd(LGImgCompressor.CompressResult compressResult) {
+    public void onCompressEnd(LGImgCompressor.CompressResult compressResult) throws IOException {
         if (compressResult.getStatus() == LGImgCompressor.CompressResult.RESULT_ERROR)//压缩失败
+        {
+            Toast.makeText(ChatActivity.this, "压缩失败", Toast.LENGTH_SHORT).show();
             return;
-        Log.e("path", compressResult.getOutPath());
+        }
+
+        final AVIMImageMessage avimImageMessage = new AVIMImageMessage(compressResult.getOutPath());
+        avimImageMessage.setText("图像");
+        Map<String,Object> attributes = new HashMap<>();
+        attributes.put("style",2);
+        avimImageMessage.setAttrs(attributes);
+        mAVimConversation.sendMessage(avimImageMessage, new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+                mChatAdpater.updateMessage(avimImageMessage);
+
+                if (mChatAdpater.getItemCount() > 0) {
+                    recyclerView.smoothScrollToPosition(mChatAdpater.getItemCount() - 1);
+                }
+            }
+        });
     }
 
     class RecylcerviewTouch implements View.OnTouchListener{
