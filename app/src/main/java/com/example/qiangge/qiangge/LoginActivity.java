@@ -33,7 +33,6 @@ import java.lang.ref.WeakReference;
 public class LoginActivity extends AppCompatActivity implements ILoginiew{
     public final static int MSG_UPDATE = 1;
     public final static int MSG_DELETE = 2;
-    public static String userid="";
     private RelativeLayout mMoveRl;
     private PopupWindow mPopupWindow;
     private LinearLayout mFirstEditLl;
@@ -51,27 +50,17 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("username", Context.MODE_PRIVATE);
         String user = sharedPreferences.getString("username","");
-        //String pwd = sharedPreferences.getString("pwd","");
         if (user.equals("")){
             initView();
             ScreenUtils.initAnimate(mMoveRl);
         }else{
             MyApplication.userid = sharedPreferences.getString("userid","");
-            Log.e("ufff",sharedPreferences.getString("userid","")+"fsdfsdf" );
             MyApplication.userName = user;
             Intent intent = new Intent(this,MainActivity.class);
             startActivity(intent);
             finish();
         }
 
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (savedInstanceState != null){
-            userid = savedInstanceState.getString("userid");
-        }
-        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -220,5 +209,4 @@ public class LoginActivity extends AppCompatActivity implements ILoginiew{
         if (myHandler != null)
             myHandler.removeCallbacksAndMessages(null);
     }
-
 }

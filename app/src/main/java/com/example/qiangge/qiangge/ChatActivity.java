@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,11 +50,13 @@ import com.example.qiangge.selfview.ViewInjectUtils;
 import com.example.qiangge.util.AvUtil;
 import com.example.qiangge.util.CreatePtr;
 import com.example.qiangge.util.ImageLoaders;
+import com.example.qiangge.util.LGImgCompressor;
 import com.example.qiangge.util.ScreenUtils;
 import com.example.qiangge.util.ToastShow;
 import com.iflytek.cloud.ui.RecognizerDialog;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -67,7 +70,7 @@ import me.nereo.multi_image_selector.MultiImageSelectorActivity;
  * Created by qiangge on 2016/5/25.
  */
 @ContentView(R.layout.chat)
-public class ChatActivity extends Activity{
+public class ChatActivity extends Activity  implements LGImgCompressor.CompressListener{
     public static final int REQUESTIAMGE = 1;
     @ViewInject(R.id.chat_pf)
     private PtrClassicFrameLayout ptrClassicFrameLayout;
@@ -327,7 +330,7 @@ public class ChatActivity extends Activity{
 
     private void updateRelate() {
         AVQuery<AVObject> userQuery= new AVQuery<>("RelateFriend");
-        userQuery.whereEqualTo("userid", LoginActivity.userid);
+        userQuery.whereEqualTo("userid", MyApplication.userid);
         userQuery.whereEqualTo("contactname",contactName);
         AVQuery<AVObject> contactQuery = new AVQuery<>("RelateFriend");
         contactQuery.whereEqualTo("userid", contactId);
@@ -360,6 +363,9 @@ public class ChatActivity extends Activity{
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
                 for (String p : path){
                     try {
+                       /* LGImgCompressor.getInstance(this).
+                                starCompress(p, 600, 800, 100);*/
+
                        final AVIMImageMessage avimImageMessage = new AVIMImageMessage(p);
                         avimImageMessage.setText("图像");
                         Map<String,Object> attributes = new HashMap<>();
@@ -388,6 +394,19 @@ public class ChatActivity extends Activity{
         super.onDestroy();
         unregisterReceiver(messageReveiver);
     }
+
+    @Override
+    public void onCompressStart() {
+
+    }
+
+    @Override
+    public void onCompressEnd(LGImgCompressor.CompressResult compressResult) {
+        if (compressResult.getStatus() == LGImgCompressor.CompressResult.RESULT_ERROR)//压缩失败
+            return;
+        Log.e("path", compressResult.getOutPath());
+    }
+
     class RecylcerviewTouch implements View.OnTouchListener{
         @Override
         public boolean onTouch(View v, MotionEvent event) {

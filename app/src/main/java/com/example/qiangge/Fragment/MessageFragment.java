@@ -50,8 +50,9 @@ public class MessageFragment extends Fragment{
             public void querySuccess(List<AVObject> list) {
                 LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(getActivity());
                 messageRecycler.setLayoutManager(horizontalLayoutManager);
-                adapter = new MeaageAdapter(getActivity(), getActivity().getIntent().getStringExtra("username"), list);
+                adapter = new MeaageAdapter(getActivity(), "", list);
                 messageRecycler.setAdapter(adapter);
+                Log.e("contxt",getActivity()+"fdsf");
                 CreatePtr.getPtr(getActivity(), ptrClassicFrameLayout, null);
                 adapter.notifyDataSetChanged();
             }

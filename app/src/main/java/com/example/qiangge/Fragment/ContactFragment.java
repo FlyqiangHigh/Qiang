@@ -47,11 +47,9 @@ public class ContactFragment extends Fragment {
     private MyAdapter adapter;
     private View view;
     public void setUpdate(){
-        Log.e("fsddf","fsdfsdf");
         AvUtil.query(MyApplication.userid ,new IAVQuery() {
             @Override
             public void querySuccess(List<AVObject> list) {
-
                 adapter.updateData(list);
                 adapter.notifyDataSetChanged();
             }

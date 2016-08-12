@@ -25,6 +25,7 @@ import com.example.qiangge.util.MessageStaus;
 import com.example.qiangge.util.ToastShow;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.iflytek.cloud.ui.RecognizerDialog;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -113,7 +114,6 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
     @Override
     public int getItemViewType(int position) {
-        Log.e("usreName",linkedMessage.get(position).getFrom()+" "+AVIMClient.getInstance(userName.toString()).getClientId());
         if (linkedMessage.get(position).getFrom().equals(AVIMClient.getInstance(userName.toString()).getClientId()))
             return 0;
         else
@@ -156,10 +156,9 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         holder.mOutText.setVisibility(View.GONE);
         holder.mOutPicture.setVisibility(View.VISIBLE);
         Uri uri = Uri.parse(avimMessage.getFileUrl());
-        ToastShow.toastShow(mContext,"enter");
-        holder.mOutPicture.setOnClickListener(new Onclick( holder.mOutPicture, map.get(avimMessage.getFileUrl())));
-        holder.mOutPicture.setImageURI(uri);
-
+        Picasso.with(mContext).load(uri).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder)).into(holder.mOutPicture);
+        holder.mOutPicture.setOnClickListener(new Onclick(holder.mOutPicture, map.get(avimMessage.getFileUrl())));
+        //holder.mOutPicture.setImageURI(uri);
     }
 
     private void bindoutChatText(outChat holder, int position) {
@@ -173,9 +172,11 @@ public class ChatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         AVIMImageMessage avimMessage =(AVIMImageMessage) linkedMessage.get(position);
         holder.mInText.setVisibility(View.GONE);
         holder.mInPicture.setVisibility(View.VISIBLE);
+
         Uri uri = Uri.parse(avimMessage.getFileUrl());
-         holder.mInPicture.setOnClickListener(new Onclick(holder.mInPicture,map.get(avimMessage.getFileUrl())));
-         holder.mInPicture.setImageURI(uri);
+        Picasso.with(mContext).load(uri).placeholder(mContext.getResources().getDrawable(R.drawable.placeholder)).into(holder.mInPicture);
+         holder.mInPicture.setOnClickListener(new Onclick(holder.mInPicture, map.get(avimMessage.getFileUrl())));
+         //holder.mInPicture.setImageURI(uri);
     }
     private void bindInchatText(inChat holder, int position) {
         AVIMTextMessage avimMessage = (AVIMTextMessage)linkedMessage.get(position);
